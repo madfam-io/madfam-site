@@ -37,15 +37,15 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "framer-motion": "^11.18.0",
-    "lucide-react": "^0.553.0",
-    "next": "^15.5.2",
+    "lucide-react": "^0.554.0",
+    "next": "^15.5.6",
     "next-auth": "^4.24.13",
-    "next-intl": "^4.5.3",
+    "next-intl": "^4.5.5",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "react-hook-form": "^7.66.0",
+    "react-hook-form": "^7.66.1",
     "tailwind-merge": "^3.4.0",
-    "zod": "^4.1.12"
+    "zod": "^4.1.13"
   },
   "devDependencies": {
     "@playwright/test": "^1.56.1",
@@ -58,10 +58,10 @@
     "@testing-library/user-event": "^14.6.1",
     "@types/bcryptjs": "^3.0.0",
     "@types/node": "^24.10.1",
-    "@types/react": "^19.2.4",
+    "@types/react": "^19.2.7",
     "@types/react-dom": "^18.2.18",
-    "@typescript-eslint/eslint-plugin": "^8.46.4",
-    "@typescript-eslint/parser": "^8.46.4",
+    "@typescript-eslint/eslint-plugin": "^8.47.0",
+    "@typescript-eslint/parser": "^8.47.0",
     "@vitejs/plugin-react": "^5.1.1",
     "autoprefixer": "^10.4.22",
     "eslint": "^8.57.1",
@@ -73,6 +73,6 @@
     "tailwindcss": "^4.1.17",
     "tsx": "^4.20.6",
     "typescript": "^5.9.3",
-    "vitest": "^4.0.8"
+    "vitest": "^4.0.13"
   }
 }
