@@ -6,13 +6,27 @@ services:
       context: .
       dockerfile: apps/web/Dockerfile
     ports:
-      - "3000:3000"
+      - '3000:3000'
     environment:
       - NODE_ENV=production
       - NEXT_PUBLIC_ENV=local
       - NEXT_PUBLIC_API_URL=http://localhost:3000
+      # MADFAM ecosystem connections
+      - JANUA_API_URL=http://janua-api:8001
+      - FORGESIGHT_API_URL=http://forgesight-api:8100
+      - COTIZA_API_URL=http://cotiza-api:8200
+      # Janua Auth Integration
+      - JANUA_ENABLED=true
+      - JANUA_JWT_SECRET=dev-shared-janua-secret-32chars!!
+      - NEXTAUTH_SECRET=dev-nextauth-secret-change-in-production
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:3000/api/health']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
     networks:
-      - madfam-network
+      - madfam-shared-network
     restart: unless-stopped
 
   # Development service
@@ -21,39 +35,23 @@ services:
       context: .
       dockerfile: apps/web/Dockerfile.dev
     ports:
-      - "3001:3000"
+      - '3001:3090'
     environment:
       - NODE_ENV=development
       - NEXT_PUBLIC_ENV=development
       - NEXT_PUBLIC_API_URL=http://localhost:3001
-    volumes:
-      - ./apps/web:/app/apps/web
-      - ./packages:/app/packages
-      - /app/node_modules
-      - /app/apps/web/node_modules
-      - /app/apps/web/.next
+      # MADFAM ecosystem connections
+      - JANUA_API_URL=http://janua-api:8001
+      - FORGESIGHT_API_URL=http://forgesight-api:8100
+      - COTIZA_API_URL=http://cotiza-api:8200
+      # Janua Auth Integration
+      - JANUA_ENABLED=true
+      - JANUA_JWT_SECRET=dev-shared-janua-secret-32chars!!
+      - NEXTAUTH_SECRET=dev-nextauth-secret-change-in-production
     networks:
-      - madfam-network
+      - madfam-shared-network
     restart: unless-stopped
-
-  # PostgreSQL database for CMS
-  postgres:
-    image: postgres:15-alpine
-    environment:
-      - POSTGRES_DB=payload_cms
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    networks:
-      - madfam-network
-    restart: unless-stopped
-
-volumes:
-  postgres_data:
 
 networks:
-  madfam-network:
-    driver: bridge
+  madfam-shared-network:
+    external: true

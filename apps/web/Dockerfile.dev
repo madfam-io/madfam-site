@@ -1,21 +1,21 @@
 # Development Dockerfile
 FROM node:20-alpine AS base
-RUN apk add --no-cache libc6-compat
+RUN apk add --no-cache libc6-compat openssl
 RUN corepack enable && corepack prepare pnpm@latest --activate
 WORKDIR /app
 
-# Copy package files
-COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
-COPY packages/*/package.json ./packages/
-COPY apps/*/package.json ./apps/
+# Copy package files and configs
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml tsconfig.json ./
+COPY packages/ ./packages/
+COPY apps/ ./apps/
 
-# Install dependencies
-RUN pnpm install
-
-# Copy source code
-COPY . .
+# Install dependencies with shamefully-hoist for better module resolution
+RUN pnpm install --shamefully-hoist
 
 WORKDIR /app/apps/web
+
+# Generate Prisma client if schema exists
+RUN npx prisma generate || true
 
 EXPOSE 3000
 ENV PORT=3000

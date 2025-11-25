@@ -6,6 +6,10 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import { UserRole } from '@/lib/prisma-types';
 import { prisma } from './prisma';
 import { generateCsrfToken } from './security';
+import { JanuaCredentialsProvider, januaJwtCallback, januaSessionCallback } from './janua-auth';
+
+// Check if Janua auth is enabled (default: true for unified auth)
+const JANUA_ENABLED = process.env.JANUA_ENABLED !== 'false';
 
 /**
  * NextAuth configuration
@@ -36,8 +40,12 @@ export const authOptions: NextAuthOptions = {
     error: '/auth/error',
   },
   providers: [
+    // Janua authentication (primary - unified MADFAM auth)
+    ...(JANUA_ENABLED ? [JanuaCredentialsProvider] : []),
+    // Local credentials (fallback for development/migration)
     CredentialsProvider({
-      name: 'credentials',
+      id: 'local',
+      name: 'Local',
       credentials: {
         email: { label: 'Email', type: 'email' },
         password: { label: 'Password', type: 'password' },
@@ -74,10 +82,22 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    async jwt({ token, user, trigger }) {
+    async jwt({ token, user, trigger, account }) {
+      // Handle Janua authentication
+      if (user && account?.provider === 'janua') {
+        const januaToken = await januaJwtCallback({ token, user, account });
+        // Generate CSRF token
+        if (!januaToken.csrfToken || trigger === 'signIn') {
+          januaToken.csrfToken = generateCsrfToken();
+        }
+        return januaToken;
+      }
+
+      // Handle local authentication
       if (user) {
         token.id = user.id;
         token.role = (user as { role?: UserRole }).role || UserRole.VIEWER;
+        token.authProvider = 'local';
       }
 
       // Generate CSRF token on sign in or if not present
@@ -88,6 +108,14 @@ export const authOptions: NextAuthOptions = {
       return token;
     },
     async session({ session, token }) {
+      // Handle Janua session
+      if (token.authProvider === 'janua') {
+        const januaSession = januaSessionCallback({ session, token });
+        januaSession.csrfToken = token.csrfToken as string;
+        return januaSession;
+      }
+
+      // Handle local session
       if (session?.user) {
         session.user.id = token.id as string;
         session.user.role = token.role as UserRole;
@@ -95,6 +123,7 @@ export const authOptions: NextAuthOptions = {
 
       // Add CSRF token to session
       session.csrfToken = token.csrfToken as string;
+      session.authProvider = token.authProvider as string;
 
       return session;
     },
@@ -105,6 +134,12 @@ export const authOptions: NextAuthOptions = {
 declare module 'next-auth' {
   interface User {
     role: UserRole;
+    // Janua-specific fields (optional for local auth)
+    januaAccessToken?: string;
+    januaRefreshToken?: string;
+    januaTokenExpiry?: number;
+    orgId?: string;
+    permissions?: string[];
   }
 
   interface Session {
@@ -114,8 +149,13 @@ declare module 'next-auth' {
       email?: string | null;
       name?: string | null;
       image?: string | null;
+      orgId?: string;
+      permissions?: string[];
     };
     csrfToken: string;
+    authProvider?: string;
+    januaAccessToken?: string;
+    error?: string;
   }
 }
 
@@ -124,5 +164,13 @@ declare module 'next-auth/jwt' {
     id: string;
     role: UserRole;
     csrfToken: string;
+    authProvider?: string;
+    // Janua-specific fields
+    januaAccessToken?: string;
+    januaRefreshToken?: string;
+    januaTokenExpiry?: number;
+    orgId?: string;
+    permissions?: string[];
+    error?: string;
   }
 }
