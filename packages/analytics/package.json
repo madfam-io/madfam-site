@@ -1,19 +1,17 @@
 {
   "name": "@madfam/analytics",
   "version": "0.1.0",
-  "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
   "scripts": {
-    "build": "tsup src/index.ts --format esm,cjs --dts",
-    "dev": "tsup src/index.ts --format esm,cjs --dts --watch",
+    "build": "echo 'Re-exports from standalone @madfam/analytics'",
+    "dev": "echo 'Re-exports from standalone @madfam/analytics'",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "plausible-tracker": "^0.3.9"
+    "@madfam/analytics-standalone": "file:../../../madfam-analytics"
   },
   "devDependencies": {
-    "tsup": "^8.5.1",
     "typescript": "^5.9.3"
   }
 }

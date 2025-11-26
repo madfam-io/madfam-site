@@ -140,3 +140,13 @@ export { WelcomeEmail, AssessmentResultsEmail, ROIResultsEmail };
 
 // Export service instance
 export const emailService = new EmailService();
+
+// Export Janua email sender for centralized email delivery
+export {
+  JanuaEmailSender,
+  januaEmailSender,
+  sendEmailViaJanua,
+  sendTemplateEmailViaJanua,
+  checkJanuaHealth,
+  JANUA_TEMPLATES,
+} from './janua-sender';
