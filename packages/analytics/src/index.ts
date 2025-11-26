@@ -8,7 +8,7 @@
  * See: solarpunk-foundry/templates/analytics/analytics.ts for reference implementation
  * See: solarpunk-foundry/docs/SHARED_PACKAGES_DISSOLUTION_PLAN.md
  *
- * Event taxonomy is defined in @solarpunk/core
+ * Event taxonomy is defined in @madfam/core
  */
 
 // This package is now empty - apps own their own analytics implementation
