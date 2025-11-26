@@ -1,15 +1,13 @@
 {
   "name": "@madfam/analytics",
   "version": "0.1.0",
+  "private": true,
   "main": "./src/index.ts",
   "types": "./src/index.ts",
   "scripts": {
-    "build": "echo 'Re-exports from standalone @madfam/analytics'",
-    "dev": "echo 'Re-exports from standalone @madfam/analytics'",
+    "build": "echo 'Local analytics - no build needed'",
+    "dev": "echo 'Local analytics package'",
     "typecheck": "tsc --noEmit"
-  },
-  "optionalDependencies": {
-    "@madfam/analytics-standalone": "file:../../../madfam-analytics"
   },
   "devDependencies": {
     "typescript": "^5.9.3"

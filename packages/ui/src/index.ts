@@ -1,10 +1,14 @@
 /**
- * @madfam/ui - Re-exports from standalone shared library
+ * @madfam/ui - Local UI Package
  *
- * This package now proxies to the extracted @madfam/ui-standalone
- * for ecosystem-wide dogfooding.
+ * This package previously re-exported from the standalone madfam-ui repo.
+ * That repo has been dissolved per the ecosystem governance plan.
  *
- * The standalone library lives at: labspace/madfam-ui
+ * UI components are now owned by each app directly.
+ * See: solarpunk-foundry/docs/SHARED_PACKAGES_DISSOLUTION_PLAN.md
+ *
+ * If you need shared design tokens, use @solarpunk/core instead.
  */
 
-export * from '@madfam/ui-standalone';
+// This package is now empty - apps own their own UI components
+export {};
