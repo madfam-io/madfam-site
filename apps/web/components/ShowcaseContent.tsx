@@ -9,7 +9,7 @@ import {
   TestimonialCard,
   Container,
   Heading,
-} from '@madfam/ui';
+} from '@/components/ui';
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { FeatureFlag, FeatureFlagDebug } from '@/components/FeatureFlag';

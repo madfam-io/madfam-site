@@ -8,7 +8,7 @@
     "dev": "echo 'Re-exports from standalone @madfam/analytics'",
     "typecheck": "tsc --noEmit"
   },
-  "dependencies": {
+  "optionalDependencies": {
     "@madfam/analytics-standalone": "file:../../../madfam-analytics"
   },
   "devDependencies": {

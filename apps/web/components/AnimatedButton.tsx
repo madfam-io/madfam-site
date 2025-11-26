@@ -1,6 +1,6 @@
 'use client';
 
-import { cn } from '@madfam/ui';
+import { cn } from '@/components/ui';
 import { motion } from 'framer-motion';
 import { ReactNode } from 'react';
 

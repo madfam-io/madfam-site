@@ -16,7 +16,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useFormTracking, useConversionTracking, useErrorTracking } from '@madfam/analytics';
 import { logger } from '@madfam/core';
-import { Button } from '@madfam/ui';
+import { Button } from '@/components/ui';
 import { useTranslations, useLocale } from 'next-intl';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';

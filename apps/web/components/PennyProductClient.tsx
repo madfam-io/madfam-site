@@ -1,6 +1,6 @@
 'use client';
 
-import { type Locale } from '@madfam/i18n';
+type Locale = 'es' | 'en' | 'pt';
 import {
   Container,
   Heading,
@@ -15,7 +15,7 @@ import {
   type TestimonialData,
   type ROIResults,
   type LeadFormData,
-} from '@madfam/ui';
+} from '@/components/ui';
 import { logServiceInquiry } from '@/lib/logger';
 
 interface PennyFeature {

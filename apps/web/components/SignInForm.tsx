@@ -1,7 +1,7 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Button } from '@madfam/ui';
+import { Button } from '@/components/ui';
 import { useRouter } from 'next/navigation';
 import { signIn } from 'next-auth/react';
 import { useTranslations } from 'next-intl';

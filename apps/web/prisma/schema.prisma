@@ -6,7 +6,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -55,29 +55,29 @@ model Lead {
   source      LeadSource  @default(WEBSITE)
   score       Int         @default(0)
   status      LeadStatus  @default(NEW)
-  
+
   // Metadata
   industry    String?
   companySize String?
   budget      String?
   timeframe   String?
-  
+
   // Tracking
   utmSource   String?
   utmMedium   String?
   utmCampaign String?
   ipAddress   String?
   userAgent   String?
-  
+
   // Relations
   assessments Assessment[]
   calculations Calculation[]
   notes       LeadNote[]
   activities  LeadActivity[]
-  
+
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
-  
+
   @@index([email])
   @@index([status])
   @@index([createdAt])
@@ -91,7 +91,7 @@ model LeadNote {
   authorId  String?
   author    User?    @relation(fields: [authorId], references: [id])
   createdAt DateTime @default(now())
-  
+
   @@index([leadId])
 }
 
@@ -105,7 +105,7 @@ model LeadActivity {
   user        User?    @relation(fields: [userId], references: [id])
   metadata    Json?
   createdAt   DateTime @default(now())
-  
+
   @@index([leadId])
   @@index([type])
   @@index([createdAt])
@@ -118,19 +118,19 @@ model Assessment {
   lead       Lead?            @relation(fields: [leadId], references: [id])
   email      String?
   status     AssessmentStatus @default(STARTED)
-  
+
   // Assessment data
   answers    Json             // Store as JSON for flexibility
   score      Int?
-  
+
   // Results
   strengths  Json?
   weaknesses Json?
   recommendations Json?
-  
+
   createdAt  DateTime         @default(now())
   completedAt DateTime?
-  
+
   @@index([email])
   @@index([status])
   @@index([createdAt])
@@ -143,18 +143,18 @@ model Calculation {
   leadId       String?
   lead         Lead?       @relation(fields: [leadId], references: [id])
   email        String?
-  
+
   // Input/Output data
   inputs       Json
   results      Json
-  
+
   // Results summary
   totalValue   Float?
   roi          Float?
   paybackMonths Int?
-  
+
   createdAt    DateTime    @default(now())
-  
+
   @@index([type])
   @@index([email])
   @@index([createdAt])
@@ -167,19 +167,19 @@ model User {
   name          String?
   role          UserRole       @default(VIEWER)
   image         String?
-  
+
   // Auth
   passwordHash  String?
   emailVerified DateTime?
-  
+
   // Relations
   sessions      Session[]
   leadNotes     LeadNote[]
   leadActivities LeadActivity[]
-  
+
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
-  
+
   @@index([email])
 }
 
@@ -189,7 +189,7 @@ model Session {
   userId       String
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
+
   @@index([userId])
 }
 
@@ -199,19 +199,19 @@ model FeatureFlag {
   name             String
   description      String?
   enabled          Boolean  @default(false)
-  
+
   // Environment-specific settings
   enabledDev       Boolean  @default(true)
   enabledStaging   Boolean  @default(false)
   enabledProd      Boolean  @default(false)
-  
+
   // Rollout configuration
   rolloutPercentage Int?    @default(0)
   userGroups       Json?
-  
+
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
-  
+
   @@index([key])
 }
 
@@ -221,15 +221,15 @@ model AnalyticsEvent {
   properties Json?
   userId     String?
   sessionId  String?
-  
+
   // Context
   url        String?
   referrer   String?
   userAgent  String?
   ipAddress  String?
-  
+
   createdAt  DateTime @default(now())
-  
+
   @@index([event])
   @@index([userId])
   @@index([sessionId])
@@ -245,11 +245,11 @@ model EmailQueue {
   status     String   @default("pending") // pending, sent, failed
   attempts   Int      @default(0)
   error      String?
-  
+
   sentAt     DateTime?
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
-  
+
   @@index([status])
   @@index([createdAt])
 }
@@ -261,10 +261,10 @@ model Integration {
   config      Json     // Encrypted configuration
   webhookUrl  String?
   apiKey      String?  // Encrypted
-  
+
   lastSync    DateTime?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  
+
   @@index([name])
 }

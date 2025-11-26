@@ -1,6 +1,6 @@
 'use client';
 
-import { StaticBrandPattern } from '@madfam/ui';
+import { StaticBrandPattern } from '@/components/ui';
 import React from 'react';
 import { BrandShowcase } from './BrandShowcase';
 import { SolarpunkHero } from './SolarpunkHero';

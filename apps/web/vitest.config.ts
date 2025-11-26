@@ -30,11 +30,8 @@ export default defineConfig({
       '@/app': path.resolve(__dirname, './app'),
       '@/hooks': path.resolve(__dirname, './hooks'),
       '@/styles': path.resolve(__dirname, './styles'),
-      '@madfam/ui': path.resolve(__dirname, '../../packages/ui/src'),
-      '@madfam/core': path.resolve(__dirname, '../../packages/core/src'),
-      '@madfam/analytics': path.resolve(__dirname, '../../packages/analytics/src'),
-      '@madfam/i18n': path.resolve(__dirname, '../../packages/i18n/src'),
-      '@madfam/email': path.resolve(__dirname, '../../packages/email/src'),
+      // Local UI components (previously @madfam/ui)
+      '@/components/ui': path.resolve(__dirname, './components/ui'),
     },
   },
 });

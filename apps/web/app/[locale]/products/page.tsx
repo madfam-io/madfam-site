@@ -1,4 +1,4 @@
-import { Container } from '@madfam/ui';
+import { Container } from '@/components/ui';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { getTranslations } from 'next-intl/server';

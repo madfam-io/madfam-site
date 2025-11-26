@@ -1,6 +1,6 @@
 'use client';
 
-import { Button } from '@madfam/ui';
+import { Button } from '@/components/ui';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Cookie, Settings, X } from 'lucide-react';
 import Link from 'next/link';

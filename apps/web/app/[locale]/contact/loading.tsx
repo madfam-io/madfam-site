@@ -1,4 +1,4 @@
-import { Container } from '@madfam/ui';
+import { Container } from '@/components/ui';
 import { FormFieldSkeleton, Skeleton, SkeletonContainer } from '@/components/Skeleton';
 
 export default function ContactLoading() {

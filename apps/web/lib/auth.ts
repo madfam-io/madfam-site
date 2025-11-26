@@ -4,9 +4,9 @@ import type { NextAuthOptions } from 'next-auth';
 import type { Adapter } from 'next-auth/adapters';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { UserRole } from '@/lib/prisma-types';
+import { JanuaCredentialsProvider, januaJwtCallback, januaSessionCallback } from './janua-auth';
 import { prisma } from './prisma';
 import { generateCsrfToken } from './security';
-import { JanuaCredentialsProvider, januaJwtCallback, januaSessionCallback } from './janua-auth';
 
 // Check if Janua auth is enabled (default: true for unified auth)
 const JANUA_ENABLED = process.env.JANUA_ENABLED !== 'false';
@@ -85,7 +85,22 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user, trigger, account }) {
       // Handle Janua authentication
       if (user && account?.provider === 'janua') {
-        const januaToken = await januaJwtCallback({ token, user, account });
+        const januaUser = user as typeof user & {
+          januaAccessToken: string;
+          januaRefreshToken: string;
+          januaTokenExpiry: number;
+          orgId?: string;
+          permissions: string[];
+        };
+        const januaToken = await januaJwtCallback(token, {
+          id: januaUser.id,
+          role: januaUser.role,
+          januaAccessToken: januaUser.januaAccessToken,
+          januaRefreshToken: januaUser.januaRefreshToken,
+          januaTokenExpiry: januaUser.januaTokenExpiry,
+          orgId: januaUser.orgId,
+          permissions: januaUser.permissions,
+        });
         // Generate CSRF token
         if (!januaToken.csrfToken || trigger === 'signIn') {
           januaToken.csrfToken = generateCsrfToken();
@@ -110,9 +125,11 @@ export const authOptions: NextAuthOptions = {
     async session({ session, token }) {
       // Handle Janua session
       if (token.authProvider === 'janua') {
-        const januaSession = januaSessionCallback({ session, token });
-        januaSession.csrfToken = token.csrfToken as string;
-        return januaSession;
+        const januaSession = januaSessionCallback(session, token);
+        return {
+          ...januaSession,
+          csrfToken: token.csrfToken as string,
+        } as typeof session;
       }
 
       // Handle local session

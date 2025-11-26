@@ -1,4 +1,4 @@
-import { Container, Heading, Card } from '@madfam/ui';
+import { Container, Heading, Card } from '@/components/ui';
 import Image from 'next/image';
 import Link from 'next/link';
 import { getTranslations } from 'next-intl/server';

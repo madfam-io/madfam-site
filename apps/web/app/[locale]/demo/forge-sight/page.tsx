@@ -1,6 +1,6 @@
 'use client';
 
-import { Container, Button, Card, CardContent } from '@madfam/ui';
+import { Container, Button, Card, CardContent } from '@/components/ui';
 import { useState } from 'react';
 
 export default function ForgeSightDemoPage() {

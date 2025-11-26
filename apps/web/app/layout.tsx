@@ -1,4 +1,4 @@
-import { BrandThemeProvider } from '@madfam/ui';
+import { BrandThemeProvider } from '@/components/ui';
 import { Metadata } from 'next';
 import { Inter, Poppins, Space_Mono } from 'next/font/google';
 import { DarkModeScript } from './dark-mode-script';
@@ -39,11 +39,7 @@ export const viewport = {
   ],
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html
       suppressHydrationWarning

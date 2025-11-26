@@ -1,4 +1,4 @@
-import { Container, Heading } from '@madfam/ui';
+import { Container, Heading } from '@/components/ui';
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';

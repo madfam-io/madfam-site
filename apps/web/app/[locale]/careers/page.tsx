@@ -1,4 +1,4 @@
-import { Container, Heading, Card, Button } from '@madfam/ui';
+import { Container, Heading, Card, Button } from '@/components/ui';
 import { getTranslations } from 'next-intl/server';
 
 export default async function CareersPage({ params }: { params: Promise<{ locale: string }> }) {

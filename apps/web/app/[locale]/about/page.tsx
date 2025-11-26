@@ -1,5 +1,5 @@
 import { getLocalizedContent, type Locale } from '@madfam/i18n';
-import { Container, Heading, Button } from '@madfam/ui';
+import { Container, Heading, Button } from '@/components/ui';
 import Link from 'next/link';
 import { getTranslations } from 'next-intl/server';
 

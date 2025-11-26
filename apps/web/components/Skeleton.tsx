@@ -1,4 +1,4 @@
-import { cn } from '@madfam/ui';
+import { cn } from '@/components/ui';
 
 interface SkeletonProps {
   className?: string;
@@ -16,7 +16,7 @@ export function Skeleton({
   animation = 'pulse',
 }: SkeletonProps) {
   const baseClasses = 'bg-gray-200 dark:bg-gray-700';
-  
+
   const animationClasses = {
     pulse: 'animate-pulse',
     wave: 'animate-shimmer',
@@ -37,12 +37,7 @@ export function Skeleton({
 
   return (
     <div
-      className={cn(
-        baseClasses,
-        animationClasses[animation],
-        variantClasses[variant],
-        className
-      )}
+      className={cn(baseClasses, animationClasses[animation], variantClasses[variant], className)}
       style={style}
       aria-hidden="true"
     />

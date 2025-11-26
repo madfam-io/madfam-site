@@ -6,7 +6,7 @@ import {
   RocketLaunchIcon,
   BuildingOffice2Icon,
 } from '@heroicons/react/24/outline';
-import { Button, Container, Heading } from '@madfam/ui';
+import { Button, Container, Heading } from '@/components/ui';
 import Link from 'next/link';
 import { useTranslations, useLocale } from 'next-intl';
 import { useState } from 'react';

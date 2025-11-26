@@ -1,6 +1,6 @@
 'use client';
 
-import { Button } from '@madfam/ui';
+import { Button } from '@/components/ui';
 import { motion } from 'framer-motion';
 import { Calculator, ChevronLeft, DollarSign, Clock, Users } from 'lucide-react';
 import { useTranslations } from 'next-intl';

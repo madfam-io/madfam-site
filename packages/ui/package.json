@@ -8,7 +8,7 @@
     "dev": "echo 'Re-exports from standalone @madfam/ui'",
     "typecheck": "tsc --noEmit"
   },
-  "dependencies": {
+  "optionalDependencies": {
     "@madfam/ui-standalone": "file:../../../madfam-ui"
   },
   "devDependencies": {

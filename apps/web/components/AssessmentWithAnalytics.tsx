@@ -1,8 +1,30 @@
 'use client';
 
-import { useFeatureTracking, useConversionTracking } from '@madfam/analytics';
-import { Assessment, AssessmentProps, AssessmentResult } from '@madfam/ui';
-import { useEffect, useState } from 'react';
+import { Assessment, AssessmentProps, AssessmentResult } from '@/components/ui';
+import { useEffect, useState, useCallback } from 'react';
+
+// Stub analytics hooks - replace with actual implementation when available
+function useFeatureTracking() {
+  return {
+    trackAssessmentComplete: (data: { score: number; recommendation: string }) => {
+      console.log('[Analytics] Assessment complete:', data);
+    },
+    trackFeatureUsed: (feature: string, source: string) => {
+      console.log('[Analytics] Feature used:', feature, source);
+    },
+  };
+}
+
+function useConversionTracking() {
+  return {
+    trackServiceFunnelStep: (step: string, tier: string, metadata: Record<string, string>) => {
+      console.log('[Analytics] Funnel step:', step, tier, metadata);
+    },
+    trackPurchaseIntent: (tier: string) => {
+      console.log('[Analytics] Purchase intent:', tier);
+    },
+  };
+}
 
 interface AssessmentWithAnalyticsProps extends AssessmentProps {
   source?: string;
@@ -17,11 +39,15 @@ export function AssessmentWithAnalytics({
   const { trackServiceFunnelStep, trackPurchaseIntent } = useConversionTracking();
   const [startTime, setStartTime] = useState<number>();
 
+  const trackFeature = useCallback(() => {
+    trackFeatureUsed('assessment', source);
+  }, [trackFeatureUsed, source]);
+
   useEffect(() => {
     // Track assessment start
-    trackFeatureUsed('assessment', source);
+    trackFeature();
     setStartTime(Date.now());
-  }, [trackFeatureUsed, source]);
+  }, [trackFeature]);
 
   const handleComplete = (result: AssessmentResult) => {
     const completionTime = startTime ? Date.now() - startTime : 0;

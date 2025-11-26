@@ -1,4 +1,4 @@
-import { Container, Heading } from '@madfam/ui';
+import { Container, Heading } from '@/components/ui';
 import { getTranslations } from 'next-intl/server';
 import { TranslationList } from '@/components/TranslationList';
 

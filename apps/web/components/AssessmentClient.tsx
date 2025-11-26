@@ -1,6 +1,6 @@
 'use client';
 
-import { type Locale } from '@madfam/i18n';
+type Locale = 'es' | 'en' | 'pt';
 import {
   Container,
   Heading,
@@ -12,7 +12,7 @@ import {
   type AssessmentQuestion,
   type AssessmentResult,
   type LeadFormData,
-} from '@madfam/ui';
+} from '@/components/ui';
 import { useParams } from 'next/navigation';
 import { useState } from 'react';
 import { logServiceInquiry } from '@/lib/logger';

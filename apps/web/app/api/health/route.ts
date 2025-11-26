@@ -23,7 +23,7 @@ interface HealthResponse {
   };
 }
 
-async function checkServiceHealth(name: string, url: string | undefined): Promise<ServiceHealth> {
+async function checkServiceHealth(_name: string, url: string | undefined): Promise<ServiceHealth> {
   if (!url) {
     return {
       status: 'ok',

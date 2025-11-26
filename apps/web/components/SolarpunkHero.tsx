@@ -7,7 +7,7 @@ import {
   ThemeModeSelector,
   Button,
   Container,
-} from '@madfam/ui';
+} from '@/components/ui';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import React from 'react';

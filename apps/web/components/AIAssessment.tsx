@@ -1,7 +1,7 @@
 'use client';
 
 import { analytics } from '@madfam/analytics';
-import { Button, Card, CardContent, Heading } from '@madfam/ui';
+import { Button, Card, CardContent, Heading } from '@/components/ui';
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 

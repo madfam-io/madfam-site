@@ -1,6 +1,6 @@
 'use client';
 
-import { LogoSystem, LoadingLogo, LogoWithTagline, Button } from '@madfam/ui';
+import { LogoSystem, LoadingLogo, LogoWithTagline, Button } from '@/components/ui';
 import React, { useState } from 'react';
 
 export const BrandShowcase: React.FC = () => {

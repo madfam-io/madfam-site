@@ -1,7 +1,7 @@
 'use client';
 
 import { getLocalizedUrl, type Locale } from '@madfam/i18n';
-import { cn } from '@madfam/ui';
+import { cn } from '@/components/ui';
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';

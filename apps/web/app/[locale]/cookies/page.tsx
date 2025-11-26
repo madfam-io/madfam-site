@@ -1,4 +1,4 @@
-import { Container, Heading } from '@madfam/ui';
+import { Container, Heading } from '@/components/ui';
 import { getTranslations } from 'next-intl/server';
 
 export default async function CookiesPage({ params }: { params: Promise<{ locale: string }> }) {

@@ -1,4 +1,4 @@
-import { Container, Heading, Card, CardContent } from '@madfam/ui';
+import { Container, Heading, Card, CardContent } from '@/components/ui';
 import { getTranslations } from 'next-intl/server';
 import { LeadForm } from '@/components/LeadForm';
 

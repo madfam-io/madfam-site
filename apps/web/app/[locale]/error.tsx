@@ -1,6 +1,6 @@
 'use client';
 
-import { Container, Heading, Button } from '@madfam/ui';
+import { Container, Heading, Button } from '@/components/ui';
 import Link from 'next/link';
 import { useTranslations, useLocale } from 'next-intl';
 import { useEffect } from 'react';

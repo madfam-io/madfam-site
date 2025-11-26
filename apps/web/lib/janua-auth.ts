@@ -5,15 +5,16 @@
  * This enables unified authentication across the MADFAM ecosystem.
  */
 
-import type { NextAuthOptions } from 'next-auth';
-import type { JWT } from 'next-auth/jwt';
+import { jwtVerify } from 'jose';
+import type { JWT as NextAuthJWT } from 'next-auth/jwt';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import { jwtVerify, SignJWT } from 'jose';
+import { UserRole } from '@/lib/prisma-types';
 
 // Janua configuration from environment
 const JANUA_API_URL = process.env.JANUA_API_URL || 'http://janua-api:8001';
 const JANUA_JWT_SECRET = process.env.JANUA_JWT_SECRET || 'dev-shared-janua-secret-32chars';
-const JANUA_COOKIE_NAME = process.env.JANUA_COOKIE_NAME || 'janua-session';
+// Cookie name for potential future use
+// const JANUA_COOKIE_NAME = process.env.JANUA_COOKIE_NAME || 'janua-session';
 
 /**
  * Janua user structure from API response
@@ -145,15 +146,15 @@ async function refreshJanuaTokens(refreshToken: string): Promise<JanuaTokenRespo
 /**
  * Map Janua roles to MADFAM Site roles
  */
-function mapJanuaRoles(januaRoles: string[]): string {
+function mapJanuaRoles(januaRoles: string[]): UserRole {
   // Map Janua roles to MADFAM Site UserRole
   if (januaRoles.includes('admin') || januaRoles.includes('super_admin')) {
-    return 'ADMIN';
+    return UserRole.ADMIN;
   }
   if (januaRoles.includes('editor') || januaRoles.includes('write')) {
-    return 'EDITOR';
+    return UserRole.EDITOR;
   }
-  return 'VIEWER';
+  return UserRole.VIEWER;
 }
 
 /**
@@ -197,16 +198,23 @@ export const JanuaCredentialsProvider = CredentialsProvider({
 /**
  * Janua JWT callback for NextAuth
  * Handles token refresh and Janua-specific data
+ *
+ * This is a helper function called from auth.ts jwt callback when provider is 'janua'
  */
-export async function januaJwtCallback({
-  token,
-  user,
-  account,
-}: {
-  token: JWT;
-  user?: any;
-  account?: any;
-}): Promise<JWT> {
+export async function januaJwtCallback(
+  token: NextAuthJWT,
+  user:
+    | {
+        id: string;
+        role: UserRole;
+        januaAccessToken: string;
+        januaRefreshToken: string;
+        januaTokenExpiry: number;
+        orgId?: string;
+        permissions: string[];
+      }
+    | undefined
+): Promise<NextAuthJWT> {
   // Initial sign in
   if (user) {
     return {
@@ -241,71 +249,28 @@ export async function januaJwtCallback({
 
 /**
  * Janua session callback for NextAuth
+ *
+ * This is a helper function called from auth.ts session callback when provider is 'janua'
  */
-export function januaSessionCallback({ session, token }: { session: any; token: JWT }) {
+export function januaSessionCallback(
+  session: { user?: { id?: string; role?: UserRole; orgId?: string; permissions?: string[] } },
+  token: NextAuthJWT
+): typeof session & { januaAccessToken?: string; authProvider?: string; error?: string } {
   if (session?.user) {
     session.user.id = token.id as string;
-    session.user.role = token.role;
-    session.user.orgId = token.orgId;
-    session.user.permissions = token.permissions;
+    session.user.role = token.role as UserRole;
+    session.user.orgId = token.orgId as string | undefined;
+    session.user.permissions = token.permissions as string[] | undefined;
   }
 
   // Include Janua access token for API calls
-  session.januaAccessToken = token.januaAccessToken;
-  session.authProvider = token.authProvider;
-  session.error = token.error;
-
-  return session;
-}
-
-/**
- * Get Janua auth options for NextAuth
- * Can be used standalone or merged with existing auth options
- */
-export function getJanuaAuthOptions(): Partial<NextAuthOptions> {
   return {
-    providers: [JanuaCredentialsProvider],
-    callbacks: {
-      jwt: januaJwtCallback,
-      session: januaSessionCallback,
-    },
+    ...session,
+    januaAccessToken: token.januaAccessToken as string | undefined,
+    authProvider: token.authProvider as string | undefined,
+    error: token.error as string | undefined,
   };
 }
 
 // Type augmentation for NextAuth with Janua fields
-declare module 'next-auth' {
-  interface User {
-    januaAccessToken?: string;
-    januaRefreshToken?: string;
-    januaTokenExpiry?: number;
-    orgId?: string;
-    permissions?: string[];
-  }
-
-  interface Session {
-    januaAccessToken?: string;
-    authProvider?: string;
-    error?: string;
-    user: {
-      id: string;
-      role: string;
-      email?: string | null;
-      name?: string | null;
-      image?: string | null;
-      orgId?: string;
-      permissions?: string[];
-    };
-  }
-}
-
-declare module 'next-auth/jwt' {
-  interface JWT {
-    januaAccessToken?: string;
-    januaRefreshToken?: string;
-    januaTokenExpiry?: number;
-    orgId?: string;
-    permissions?: string[];
-    authProvider?: string;
-    error?: string;
-  }
-}
+// Note: Full User, Session and JWT augmentations are in auth.ts to avoid conflicts
