@@ -37,7 +37,7 @@ export default defineConfig({
       '@/app': path.resolve(__dirname, './app'),
       '@/hooks': path.resolve(__dirname, './hooks'),
       '@/styles': path.resolve(__dirname, './styles'),
-      // Local UI components (previously @madfam/ui)
+      // Local UI components (previously @madfam-site/ui)
       '@/components/ui': path.resolve(__dirname, './components/ui'),
       // Workspace packages - these are mocked in test/setup.ts
       // We use empty modules to satisfy imports before mocks take over

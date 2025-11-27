@@ -6,8 +6,8 @@
  * This is a SIMPLIFIED, single-step form optimized for the main website.
  * Includes web-app specific analytics integration and staging environment handling.
  *
- * Note: This is NOT a duplicate of @madfam/ui LeadForm
- * - @madfam/ui LeadForm: Multi-step, feature-rich, reusable component
+ * Note: This is NOT a duplicate of @madfam-site/ui LeadForm
+ * - @madfam-site/ui LeadForm: Multi-step, feature-rich, reusable component
  * - This component: Simple, single-step, web-app specific with custom analytics
  *
  * Both serve different purposes and are intentionally separate implementations.

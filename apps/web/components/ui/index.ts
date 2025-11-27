@@ -1,4 +1,4 @@
-// Local UI components - replaces @madfam/ui dependency
+// Local UI components - replaces @madfam-site/ui dependency
 // These are simplified versions for the madfam-site
 
 export { cn } from './utils';

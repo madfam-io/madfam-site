@@ -1,5 +1,5 @@
 /**
- * @madfam/ui - Local UI Package
+ * @madfam-site/ui - Local UI Package
  *
  * This package previously re-exported from the standalone madfam-ui repo.
  * That repo has been dissolved per the ecosystem governance plan.
