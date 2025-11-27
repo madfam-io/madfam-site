@@ -16,6 +16,7 @@ import { ProductCard } from '@/components/corporate/ProductCard';
 import { SolutionCard } from '@/components/corporate/SolutionCard';
 import { PersonaSelector, usePersonaContent, type Persona } from '@/components/PersonaSelector';
 import { ScrollProgress } from '@/components/ScrollProgress';
+import { ClientLogos } from '@/components/corporate/ClientLogos';
 
 export function CorporateHomePage() {
   const t = useTranslations();
@@ -274,27 +275,8 @@ export function CorporateHomePage() {
         </Container>
       </section>
 
-      {/* Trusted By - Client Logos Placeholder */}
-      <section className="py-12 bg-neutral-50 border-y border-neutral-200">
-        <Container>
-          <p className="text-center text-sm text-neutral-600 mb-8 font-medium">
-            Trusted by 50+ LATAM enterprises building regenerative futures
-          </p>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 items-center max-w-4xl mx-auto">
-            {[1, 2, 3, 4].map(i => (
-              <div
-                key={i}
-                className="h-20 bg-neutral-200/50 rounded-lg flex items-center justify-center border border-neutral-300/50 grayscale opacity-60 hover:opacity-80 transition-opacity"
-              >
-                <span className="text-neutral-400 font-medium text-sm">Client Logo {i}</span>
-              </div>
-            ))}
-          </div>
-          <p className="text-center text-xs text-neutral-500 mt-6">
-            Logo placeholders - Replace with actual client logos
-          </p>
-        </Container>
-      </section>
+      {/* Trusted By - Client Logos */}
+      <ClientLogos variant="default" showPlaceholders={true} />
 
       {/* Our Solutions Section */}
       <section className="py-20 bg-neutral-50 relative">
