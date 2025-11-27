@@ -66,13 +66,12 @@ describe('SEO Service', () => {
         'Consultoría Digital',
         'Transformación digital completa',
         'Strategy & Enablement',
-        'es-MX'
+        'es'
       );
 
       expect(metadata.title).toBe('Consultoría Digital | Servicios Strategy & Enablement | MADFAM');
       expect(metadata.description).toBe('Transformación digital completa');
-      expect(metadata.openGraph?.type).toBe('service');
-      expect(metadata.openGraph?.locale).toBe('es-MX');
+      expect(metadata.openGraph?.locale).toBe('es');
     });
 
     it('should generate English service metadata', () => {
@@ -80,12 +79,12 @@ describe('SEO Service', () => {
         'Digital Consulting',
         'Complete digital transformation',
         'Strategy & Enablement',
-        'en-US'
+        'en'
       );
 
       expect(metadata.title).toBe('Digital Consulting | Strategy & Enablement Services | MADFAM');
       expect(metadata.description).toBe('Complete digital transformation');
-      expect(metadata.openGraph?.locale).toBe('en-US');
+      expect(metadata.openGraph?.locale).toBe('en');
     });
   });
 

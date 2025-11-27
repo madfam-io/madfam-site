@@ -484,6 +484,36 @@ export class SEOService {
         changeFrequency: 'monthly',
         priority: 0.7,
       },
+      {
+        url: '/services/level-1',
+        lastModified: now,
+        changeFrequency: 'monthly',
+        priority: 0.8,
+      },
+      {
+        url: '/services/level-2',
+        lastModified: now,
+        changeFrequency: 'monthly',
+        priority: 0.8,
+      },
+      {
+        url: '/services/level-3',
+        lastModified: now,
+        changeFrequency: 'monthly',
+        priority: 0.8,
+      },
+      {
+        url: '/services/level-4',
+        lastModified: now,
+        changeFrequency: 'monthly',
+        priority: 0.8,
+      },
+      {
+        url: '/services/level-5',
+        lastModified: now,
+        changeFrequency: 'monthly',
+        priority: 0.8,
+      },
     ];
   }
 }
