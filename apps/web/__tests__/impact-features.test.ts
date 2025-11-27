@@ -61,14 +61,15 @@ describe('Impact & SDG Features', () => {
         const corporateContent = fs.readFileSync(corporatePath, 'utf-8');
 
         // Check for common placeholder patterns
+        // Use word boundaries to avoid matching Spanish "todos" (meaning "all")
         expect(impactContent).not.toMatch(/\{\{.*\}\}/);
         expect(impactContent).not.toMatch(/\[.*\]/);
-        expect(impactContent).not.toMatch(/TODO/i);
-        expect(impactContent).not.toMatch(/FIXME/i);
+        expect(impactContent).not.toMatch(/\bTODO\b/);
+        expect(impactContent).not.toMatch(/\bFIXME\b/);
 
         expect(corporateContent).not.toMatch(/\{\{.*\}\}/);
-        expect(corporateContent).not.toMatch(/TODO/i);
-        expect(corporateContent).not.toMatch(/FIXME/i);
+        expect(corporateContent).not.toMatch(/\bTODO\b/);
+        expect(corporateContent).not.toMatch(/\bFIXME\b/);
       });
     });
   });
@@ -162,9 +163,11 @@ describe('Content Validation', () => {
       const checkObject = (obj: any, path: string = '') => {
         Object.entries(obj).forEach(([key, value]) => {
           if (typeof value === 'string' && value.length > 10) {
-            // Basic checks for mixed languages
+            // Basic checks for mixed languages (case-sensitive to avoid false positives like "UN")
             if (expectedLang === 'en') {
-              expect(value).not.toMatch(/\b(el|la|los|las|un|una)\b/i);
+              expect(value).not.toMatch(/\b(el|la|los|las|una)\b/i);
+              // Check for lowercase Spanish "un" only to avoid matching "UN" (United Nations)
+              expect(value).not.toMatch(/\bun\b(?![A-Z])/);
             } else if (expectedLang === 'es') {
               expect(value).not.toMatch(/\b(the|and|or|with)\b/i);
             } else if (expectedLang === 'pt') {

@@ -37,6 +37,36 @@ vi.mock('next-auth/react', () => ({
   signOut: vi.fn(),
 }));
 
+// Mock @madfam/analytics (package not yet implemented)
+vi.mock('@madfam/analytics', () => ({
+  analytics: {
+    trackLeadFormSubmitted: vi.fn(),
+    trackPageView: vi.fn(),
+    trackEvent: vi.fn(),
+  },
+  useFormTracking: vi.fn(() => ({
+    trackFormStart: vi.fn(),
+    trackFormSubmit: vi.fn(),
+    trackFormError: vi.fn(),
+  })),
+  useConversionTracking: vi.fn(() => ({
+    trackConversion: vi.fn(),
+  })),
+  useErrorTracking: vi.fn(() => ({
+    trackError: vi.fn(),
+  })),
+}));
+
+// Mock @madfam/core (package not yet implemented)
+vi.mock('@madfam/core', () => ({
+  logger: {
+    info: vi.fn(),
+    warn: vi.fn(),
+    error: vi.fn(),
+    debug: vi.fn(),
+  },
+}));
+
 // Mock environment variables
 process.env.NEXT_PUBLIC_BASE_URL = 'http://localhost:3000';
 process.env.NEXT_PUBLIC_ENV = 'test';
