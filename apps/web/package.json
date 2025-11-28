@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 3090",
+    "dev": "next dev -p 3001",
     "build": "(prisma generate || true) && next build",
     "postinstall": "prisma generate || echo 'Prisma generation failed - will retry during build'",
     "build:staging": "./scripts/build-staging.sh",
